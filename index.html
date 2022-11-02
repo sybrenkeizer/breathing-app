@@ -45,8 +45,63 @@
     </main>
 
     <div id="page-background" class="page-background"></div>
+
     <aside id="settings" class="settings">
       <h2 class="settings__title">Settings</h2>
+        <form>
+
+          <!-- Custom breath exhaled-retention time -->
+          <div class="form-control">
+            <input type="range" id="exhaled-retention-range">
+            <input type="text" id="exhaled-retention-text">
+            <label>Exhaled retention (optional)</label>
+          </div>
+
+          <!-- Custom inhalation time -->
+          <div class="form-control">
+            <input type="range" id="inhalation-range">
+            <input type="text" id="inhalation-text">
+            <label>Inhalation</label>
+          </div>
+
+          <!-- Custom breath inhaled-retention time -->
+          <div class="form-control">
+            <input type="range" id="inhaled-retention-range">
+            <input type="text" id="inhaled-retention-text">
+            <label>Inhaled retention (optional)</label>
+          </div>
+
+          <!-- Custom exhalation time -->
+          <div class="form-control">
+            <input type="range" id="exhalation-range">
+            <input type="text" id="exhalation-text">
+            <label>Exhalation retention</label>
+          </div>
+    
+          <!-- Breathe programs hardcoded -->
+          <div class="form-control">
+            <select id="programs-select">
+              <option value="sv-b">Sama vritti (beginner)</option>
+              <option value="sv-i">Sama vritti (intermediate)</option>
+              <option value="sv-a">Sama vritti (advanced)</option>
+              <option value="av-b">Anulom vilom (beginner)</option>
+              <option value="av-i">Anulom vilom (intermediate)</option>
+              <option value="av-a">Anulom vilom (advanced)</option>
+            </select>
+            <label>Breathe programs</label>
+          </div>
+
+          <div class="settings__btns">
+            <button type="submit" id="save-program-btn">Save as program</button>
+            <button type="submit" id="save-session-btn">Save as session</button>
+          </div>
+
+          <div class="settings__modal">
+            <label for="name-custom-program-text">Name custom program</label>
+            <input type="text" id="name-custom-program-text">
+          </div>
+
+        </form>
     </aside>
 
     <footer>
