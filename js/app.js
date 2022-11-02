@@ -1,5 +1,9 @@
 // TODO - ENHANCE: Animate color pointer
 // TODO - ENHANCE: Add background music
+// TODO - ENHANCE: Add grow animation to circle without messing up z-index hierarchy
+// TODO - ENHANCE: Add responsiveness
+//                 - font
+//                 - elements
 // TODO - FIX: Fading out trouble with circle button
 
 const settingsToggleBtn = document.getElementById('settings-toggle-btn');
@@ -11,6 +15,7 @@ const indicatorText = document.getElementById('indicator-text');
 const countdownNumber = document.getElementById('countdown-number');
 const pointerContainer = document.getElementById('pointer-container');
 const pointer = document.getElementById('pointer');
+const footerYearText = document.getElementById('footer-year');
 
 const COUNTDOWN_VALUE = 5;
 const INHALATION = 3;
@@ -41,13 +46,13 @@ const changeFadeCircleBtnShort = () => {
 };
 const changeFadeCircleBtnLong = () => {
   if (circleToggleBtn.classList.contains('fade')) {
-    circleToggleBtn.style.transition = `opacity ${COUNTDOWN_VALUE}s linear`
+    circleToggleBtn.style.transition = `opacity ${COUNTDOWN_VALUE}s linear`;
   };
 };
 
 
 // Footer function
-
+const setYearFooter = () => footerYearText.textContent = new Date().getFullYear();
 
 
 // Settings functions
@@ -173,8 +178,13 @@ const startStopBreather = () => {
 };
 
 
+const initialize = () => {
+  setYearFooter();
+}
+
 // Event Listeners
 settingsToggleBtn.addEventListener('click', toggleSettings);
 circleToggleBtn.addEventListener('click', startStopBreather);
 circleToggleBtn.addEventListener('mouseover', changeFadeCircleBtnShort);
+window.addEventListener('DOMContentLoaded', initialize);
 
