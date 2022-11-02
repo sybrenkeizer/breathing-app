@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./dist/css/style.css">
+  <script src="js/app.js" defer></script>
+  <title>Breathing App</title>
+</head>
+<body>
+  <div id="wrapper" class="wrapper">
+
+    <header>
+      <div id="move-toggle-btn" class="move-toggle-btn">
+        <div id="settings-toggle-btn" class="settings-toggle-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <h1>Breathest</h1>
+    </header>countdownNumber.textContent = COUNTDOWN_VALUE;
+
+    <main>
+      <div id="circle" class="circle">
+        <div class="circle__main"></div>
+        <div class="circle__gradient"></div>
+        <div id="pointer-container" class="circle__pointer-container rotate-animation">
+          <span class="pointer"></span>
+        </div>
+        <button id="circle-btn" class="circle__btn">
+          <i class="fa-solid fa-play play"></i>
+        </button>
+        <div id="countdown-number" class="circle__countdown"></div>
+        <div id="indicator-text" class="circle__indicator-text">
+          <p id="time" class="time"></p>
+          <p id="instruction" class="instruction">Breath in</p>
+        </div>
+      </div>
+    </main>
+
+    <div id="page-background" class="page-background"></div>
+    <aside id="settings" class="settings">
+      <h2 class="settings__title">Settings</h2>
+    </aside>
+
+    <footer>
+      <small>&copy; TheBreather <span id="footer-date">2022</span>. No rights reserved</small>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+@use './variables' as v;
+
+h1 {
+  font-weight: v.$fw-thick;
+}
+
+h2 {
+  font-size: 1.9rem;
+  font-weight: v.$fw-regular;
+}

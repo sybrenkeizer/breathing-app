@@ -1,0 +1,39 @@
+@use './variables' as v;
+
+.settings {
+  width: 30rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0rem;
+  background-color: v.$clr-accent-dark;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(-30rem);
+  z-index: 99;
+  color: v.$clr-accent-bright;
+  
+  &.open {
+    transform: translateX(0);
+  }
+
+  &__title {
+    margin-block: 1rem;
+    text-align: center;
+    font-weight: v.$fw-thick;
+  }
+
+}
+
+.page-background {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  z-index: 9;
+
+}
+
+.page-background.show {
+  opacity: 1;
+}

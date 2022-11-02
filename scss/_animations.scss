@@ -1,0 +1,19 @@
+@use './variables' as v;
+
+.rotate-animation {
+  animation-name: rotatePointerAnim;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes rotatePointerAnim {
+  from {  
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
