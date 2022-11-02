@@ -17,3 +17,39 @@
     transform: rotate(360deg);
   }
 }
+
+.grow-animation {
+  animation-name: growAnimation;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes growAnimation{
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
+}
+
+
+.shrink-animation {
+  animation-name: shrinkAnimation;
+  animation-duration: 3s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes shrinkAnimation {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+
+

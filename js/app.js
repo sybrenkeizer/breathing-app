@@ -10,6 +10,7 @@ const circleToggleBtn = document.getElementById('circle-btn');
 const indicatorText = document.getElementById('indicator-text');
 const countdownNumber = document.getElementById('countdown-number');
 const pointerContainer = document.getElementById('pointer-container');
+const pointer = document.getElementById('pointer');
 
 const COUNTDOWN_VALUE = 5;
 const INHALATION = 3;
@@ -45,8 +46,6 @@ const changeFadeCircleBtnLong = () => {
 };
 
 
-
-
 // Footer function
 
 
@@ -72,16 +71,17 @@ const inhalation = () => {
   let timeInhalation = INHALATION;
   indicatorText.firstElementChild.textContent = timeInhalation;
   indicatorText.lastElementChild.textContent = 'Inhale';
-
+  pointer.className = 'pointer grow-animation';
+  
   const interval = setInterval(() => {
     --timeInhalation;
     indicatorText.firstElementChild.textContent = timeInhalation;
-
+    
     if (timeInhalation === 0) {
       clearInterval(interval);
       hold();
     };
-
+    
   }, 1000);
 };
 
@@ -90,16 +90,17 @@ const hold = () => {
   let timeHold = HOLD;
   indicatorText.firstElementChild.textContent = timeHold;
   indicatorText.lastElementChild.textContent = 'Hold';
-
+  
+  
   const interval = setInterval(() => {
     timeHold--;
     indicatorText.firstElementChild.textContent = timeHold;
-
+    
     if (timeHold === 0) {
       clearInterval(interval);
       exhalation();
     };
-
+    
   }, 1000);
 };
 
@@ -108,6 +109,8 @@ const exhalation = () => {
   let timeExhalation = EXHALATION;
   indicatorText.firstElementChild.textContent = timeExhalation;
   indicatorText.lastElementChild.textContent = 'Exhale';
+  pointer.className = 'pointer shrink-animation';
+  
 
   const interval = setInterval(() => {
     timeExhalation--;
