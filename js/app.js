@@ -3,9 +3,12 @@
 // TODO - ENHANCE: Add grow animation to circle without messing up z-index hierarchy
 // TODO - ENHANCE: Add responsiveness
 // TODO - ENHANCE: Reduce size menu toggle button
+// TODO - ENHANCE: Look into better stop/start icons
+// TODO - ENHANCE: Improve gradient system of indicator circle 
 // TODO - FIX: Fading out trouble with circle button
 // TODO - FIX: Cross browser compatibility 
 // TODO - FIX: Deal with lost text anomaly background
+// TODO - FIX: Timer moves out of sync (after some time)
 
 const settingsToggleBtn = document.getElementById('settings-toggle-btn');
 const moveToggleBtn = document.getElementById('move-toggle-btn');
@@ -16,9 +19,9 @@ const settingNumberInputs = document.querySelectorAll('input[type=number]');
 const inhalationNumberInput = document.getElementById('inhalation-text');
 const exhalationNumberInput = document.getElementById('exhalation-text');
 const inhaledRetentionText = document.getElementById('inhaled-retention-text');
+const exhaledRetentionText = document.getElementById('exhaled-retention-text');
 const settingStartSessionsBtn = document.getElementById('save-session-btn');
 const settingsSaveProgramBtn = document.getElementById('save-program-btn');
-
 const pageBackground = document.getElementById('page-background');
 const circleToggleBtn = document.getElementById('circle-btn');
 const indicatorText = document.getElementById('indicator-text');
@@ -27,15 +30,106 @@ const pointerContainer = document.getElementById('pointer-container');
 const pointer = document.getElementById('pointer');
 const footerYearText = document.getElementById('footer-year');
 
-
 let setting_countdownValue = 5;
 let setting_inhalationValue = 3;
-let setting_inhaledRetentionValue = 2;
 let setting_exhalationValue = 3;
+let setting_inhaledRetentionValue = 2;
+let setting_exhaledRetentionValue = 0;
 
 let startNumber;
 let isBreathing = false;
 let isGradient;
+
+const breathPrograms = [
+  {
+    id: 'sv-b',
+    name: 'Sama vritti',
+    level: 'beginner',
+    breath: {
+      inhalation: 3,
+      exhalation: 3,
+      inhaledRetention: 3,
+      exhaledRetention: 3,
+    }
+  },
+  {
+    id: 'sv-i',
+    name: 'Sama vritti',
+    level: 'intermediate',
+    breath: {
+      inhalation: 5,
+      exhalation: 5,
+      inhaledRetention: 5,
+      exhaledRetention: 5,
+    }
+  },
+  {
+    id: 'sv-a',
+    name: 'Sama vritti',
+    level: 'advanced',
+    breath: {
+      inhalation: 10,
+      exhalation: 10,
+      inhaledRetention: 10,
+      exhaledRetention: 10,
+    }
+  },
+  {
+    id: 'sv-e',
+    name: 'Sama vritti',
+    level: 'expert',
+    breath: {
+      inhalation: 20,
+      exhalation: 20,
+      inhaledRetention: 20,
+      exhaledRetention: 20,
+    }
+  },
+  {
+    id: 'av-b',
+    name: 'Anulom vilom',
+    level: 'beginner',
+    breath: {
+      inhalation: 1,
+      exhalation: 4,
+      inhaledRetention: 2,
+      exhaledRetention: 2,
+    }
+  },
+  {
+    id: 'av-i',
+    name: 'Anulom vilom',
+    level: 'intermediate',
+    breath: {
+      inhalation: 2,
+      exhalation: 8,
+      inhaledRetention: 4,
+      exhaledRetention: 4,
+    }
+  },
+  {
+    id: 'av-a',
+    name: 'Anulom vilom',
+    level: 'advanced',
+    breath: {
+      inhalation: 3,
+      exhalation: 9,
+      inhaledRetention: 6,
+      exhaledRetention: 6,
+    }
+  },
+  {
+    id: 'av-e',
+    name: 'Anulom vilom',
+    level: 'expert',
+    breath: {
+      inhalation: 4,
+      exhalation: 16,
+      inhaledRetention: 8,
+      exhaledRetention: 8,
+    }
+  },
+]
 
 
 
@@ -146,6 +240,8 @@ const initializeSettings = (e) => {
   setting_inhalationValue = +inhalationNumberInput.value;
   setting_exhalationValue = +exhalationNumberInput.value;
   setting_inhaledRetentionValue = inhaledRetentionText.value ? +inhaledRetentionText.value : 0;
+  setting_exhaledRetentionValue = exhaledRetentionText.value ? +exhaledRetentionText.value : 0;
+  exhaledRetentionText;
   setStyleCircleSectionBorders();
   setRotationTimePointer();  
   setCircleSections();
@@ -155,6 +251,62 @@ const initializeSettings = (e) => {
 const validateSettingsFormInput = () => {
   return (inhalationNumberInput.value && exhalationNumberInput.value) 
 }
+
+const controlInputSettings = () => {
+  const setSelectedToCustoms = () => settingSelect.value = 'custom';
+
+  
+  settingRangeInputs.forEach(rangeInput => {
+    rangeInput.addEventListener('input', setSelectedToCustoms);
+  });
+
+  settingNumberInputs.forEach(numberInput => {
+    numberInput.addEventListener('input', setSelectedToCustoms);
+  });
+
+  settingSelect.addEventListener('click', (e) => {
+    if (e.target.value !== 'custom') setBreathInputsToProgram(e);
+  })
+}
+
+const setBreathInputsToProgram = (e) => {
+  const selectedProgram = e.target.value;
+
+  for (let key in breathPrograms) {
+    if (selectedProgram === breathPrograms[key].id) {
+      const program = breathPrograms[key];
+      inhalationNumberInput.value = program.breath.inhalation;
+      exhalationNumberInput.value = program.breath.exhalation;
+      inhaledRetentionText.value = program.breath.inhaledRetention;
+      exhaledRetentionText.value = program.breath.exhaledRetention;
+    };
+  };
+
+  settingRangeInputs.forEach(rangeInput => {
+    const setRangeInput = (range, number) => {
+      const value = number.value;
+      const min = range.min;
+      const max = range.max;
+      range.value = value;
+      range.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%';
+    }
+    if (rangeInput.dataset.breath === inhalationNumberInput.dataset.breath) {
+      setRangeInput(rangeInput, inhalationNumberInput);
+    };
+    if (rangeInput.dataset.breath === exhalationNumberInput.dataset.breath) {
+      setRangeInput(rangeInput, exhalationNumberInput);
+    };
+    if (rangeInput.dataset.breath === inhaledRetentionText.dataset.breath) {
+      setRangeInput(rangeInput, inhaledRetentionText);
+    };
+    if (rangeInput.dataset.breath === exhaledRetentionText.dataset.breath) {
+      setRangeInput(rangeInput, exhaledRetentionText);
+    };
+
+  })
+
+};
+
 
 
 const saveProgramSettings = (e) => {
@@ -167,6 +319,15 @@ const saveProgramSettings = (e) => {
 // ==========================
 const inhalation = () => {
   if (!isBreathing) return;
+
+  console.log(setting_inhalationValue);
+  console.log(setting_exhalationValue);
+  console.log(setting_inhaledRetentionValue);
+  console.log(setting_exhaledRetentionValue);
+
+
+
+
   let timeInhalation = setting_inhalationValue;
   indicatorText.firstElementChild.textContent = timeInhalation;
   indicatorText.lastElementChild.textContent = 'Inhale';
@@ -178,24 +339,24 @@ const inhalation = () => {
     
     if (timeInhalation === 0) {
       clearInterval(interval);
-      hold();
+      inhaledRetention();
     };
     
   }, 1000);
 };
 
-const hold = () => {
+const inhaledRetention = () => {
   if (!isBreathing) return;
-  let timeHold = setting_inhaledRetentionValue;
-  indicatorText.firstElementChild.textContent = timeHold;
+  let timeRetention = setting_inhaledRetentionValue;
+  indicatorText.firstElementChild.textContent = timeRetention;
   indicatorText.lastElementChild.textContent = 'Hold';
   
   
   const interval = setInterval(() => {
-    timeHold--;
-    indicatorText.firstElementChild.textContent = timeHold;
+    timeRetention--;
+    indicatorText.firstElementChild.textContent = timeRetention;
     
-    if (timeHold === 0) {
+    if (timeRetention === 0) {
       clearInterval(interval);
       exhalation();
     };
@@ -217,56 +378,86 @@ const exhalation = () => {
 
     if (timeExhalation === 0) {
       clearInterval(interval);
-      inhalation();
+      exhaledRetention();
     };
 
   }, 1000);
 };
 
+const exhaledRetention = () => {
+  if (!isBreathing) return;
+  if (setting_exhaledRetentionValue === 0) return inhalation();
+  let timeRetention = setting_exhaledRetentionValue;
+  indicatorText.firstElementChild.textContent = timeRetention;
+  indicatorText.lastElementChild.textContent = 'Hold';
+  
+  
+  const interval = setInterval(() => {
+    timeRetention--;
+    indicatorText.firstElementChild.textContent = timeRetention;
+    
+    if (timeRetention === 0) {
+      clearInterval(interval);
+      inhalation();
+    };
+    
+  }, 1000);
+}
+
+
 // ===== Set animation timing ===== 
 const setRotationTimePointer = () => {
   const rotateAnimation = document.querySelector('.rotate-animation');
-  const animationDuration = setting_inhalationValue + setting_inhaledRetentionValue + setting_exhalationValue;
+  const animationDuration = setting_inhalationValue + setting_inhaledRetentionValue + setting_exhalationValue + setting_exhaledRetentionValue;
   rotateAnimation.style.animationDuration = `${animationDuration}s`;
-}
+};
 
 // ===== Set UI according to breathe settings ===== 
 const setCircleSections = () => {
   const circleGradient = document.querySelector('.circle__gradient');
   const inhalationTime = setting_inhalationValue;
   const exhalationTime = setting_exhalationValue;
-  const retentionTime = setting_inhaledRetentionValue;
-  const totalBreathTime = inhalationTime + retentionTime + exhalationTime;
+  const inhaledRetentionTime = setting_inhaledRetentionValue;
+  const exhaledRetentionTime = setting_exhaledRetentionValue;
+  const totalBreathTime = inhalationTime + inhaledRetentionTime + exhalationTime + exhaledRetentionTime;
 
   let startInhale = 0;
   let endInhale = inhalationTime / totalBreathTime * 100;
-  let startRetention = inhalationTime / totalBreathTime * 100;
-  let endRetention = (retentionTime / totalBreathTime * 100) + startRetention;
-  let startExhale = (retentionTime / totalBreathTime * 100) + startRetention;
-  let endExhale = 100;
+  let startInhaledRetention = endInhale;
+  let endInhaledRetention = (inhaledRetentionTime / totalBreathTime * 100) + startInhaledRetention;
+  let startExhale = endInhaledRetention;
+  let endExhale = (exhalationTime / totalBreathTime * 100) + endInhaledRetention;
+  let startExhaledRetention = endExhale;
+  let endExhaledRetention = 100;
   let overlap = 100;
 
   const colorInhale = 'hsl(354, 8%, 25%)';
   const colorExhale= 'hsl(332, 24%, 12%)';
   const colorRetention = 'hsl(0, 0%, 67%)';
-  const colorRetentionStart = !retentionTime ? colorInhale : colorRetention;
-  const colorRetentionEnd = !retentionTime ? colorExhale : colorRetention;
+  const colorInhaledRetentionStart = !inhaledRetentionTime ? colorInhale : colorRetention;
+  const colorInhaledRetentionEnd = !inhaledRetentionTime ? colorExhale : colorRetention;
+  const colorExhaledRetentionStart = !exhaledRetentionTime ? colorInhale : colorRetention;
+  const colorExhaledRetentionEnd = !exhaledRetentionTime ? colorExhale : colorRetention;
 
   if (isGradient) {
-
-    if (!retentionTime) {
-      endInhale -= 4.5;
-      startRetention = endInhale;
-      endRetention = startExhale + 4.5;
-      startExhale = endRetention;
-      endExhale -= 3;
-    }
-
+    startInhale += 1.5;
     endInhale -= 4.5;
-    startRetention += 1.5;
-    endRetention -= 4.5;
-    startExhale -= 1.5;
-    endExhale -= 3;
+    startInhaledRetention += 1.5;
+    endInhaledRetention -= 4.5;
+    startExhale += 1.5;
+    endExhale -= 4.5;
+    startExhaledRetention += 1.5;
+    endExhaledRetention -= 4.5;
+
+    if (!inhaledRetentionTime) {
+      startInhaledRetention = endInhale;
+      endInhaledRetention = startExhale
+    }
+    
+    if (!exhaledRetentionTime) {
+      startExhaledRetention = startExhaledRetention
+      endExhaledRetention - 3.5;
+    }
 
     circleGradient.style.transform = 'rotate(calc(360deg / 100 * 1.5))';
   } else {
@@ -276,10 +467,12 @@ const setCircleSections = () => {
   circleGradient.style.backgroundImage = `conic-gradient(
       ${colorInhale} ${startInhale}%,
       ${colorInhale} ${endInhale}%,
-      ${colorRetentionStart} ${startRetention}%,
-      ${colorRetentionEnd} ${endRetention}%,
+      ${colorInhaledRetentionStart} ${startInhaledRetention}%,
+      ${colorInhaledRetentionEnd} ${endInhaledRetention}%,
       ${colorExhale} ${startExhale}%,
       ${colorExhale} ${endExhale}%,
+      ${colorExhaledRetentionStart} ${startExhaledRetention}%,
+      ${colorExhaledRetentionEnd} ${endExhaledRetention}%,
       ${colorInhale} ${overlap}%)
     `;
 };
@@ -330,10 +523,9 @@ const startStopBreather = () => {
     : startCountdown();
 };
 
-
-
 const initialize = () => {
   setYearFooter();
+  controlInputSettings();
 }
 
 
