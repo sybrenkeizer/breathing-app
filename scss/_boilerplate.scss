@@ -17,3 +17,19 @@ body {
   font-family: 'Montserrat', sans-serif;
   color: v.$clr-dark;
 }
+
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  appearance: none;
+}
+
+button,
+input,
+select,
+label {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+}

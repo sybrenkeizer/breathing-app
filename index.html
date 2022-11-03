@@ -28,74 +28,106 @@
 
     <main>
       <div id="circle" class="circle">
+
+        <!-- Circle layout-->
         <div class="circle__main"></div>
         <div class="circle__gradient"></div>
         <div id="pointer-container" class="circle__pointer-container rotate-animation">
           <span id="pointer" class="pointer"></span>
         </div>
+
+        <!-- Circle button -->
         <button id="circle-btn" class="circle__btn">
           <i class="fa-solid fa-play play"></i>
         </button>
+
+        <!-- Circle content -->
         <div id="countdown-number" class="circle__countdown"></div>
         <div id="indicator-text" class="circle__indicator-text">
           <p id="time" class="time"></p>
           <p id="instruction" class="instruction">Breath in</p>
         </div>
+
       </div>
     </main>
 
+    <!-- Background for modal -->
     <div id="page-background" class="page-background"></div>
 
+    <!-- Settings -->
     <aside id="settings" class="settings">
       <h2 class="settings__title">Settings</h2>
         <form>
 
-          <!-- Custom breath exhaled-retention time -->
-          <div class="form-control">
-            <input type="range" id="exhaled-retention-range">
-            <input type="text" id="exhaled-retention-text">
-            <label>Exhaled retention (optional)</label>
+          <!-- Breathe programs hardcoded -->
+          <div class="form-control fc-program">
+            <label class="legend">Breathe programs</label>
+            <div class="custom-select">
+              <select id="programs-select">
+                <option disabled selected>Select program</option>
+                <option value="custom">Customize</option>
+                <option value="sv-b">Sama vritti (beginner)</option>
+                <option value="sv-i">Sama vritti (intermediate)</option>
+                <option value="sv-a">Sama vritti (advanced)</option>
+                <option value="sv-e">Sama vritti (expert)</option>
+                <option value="av-b">Anulom vilom (beginner)</option>
+                <option value="av-i">Anulom vilom (intermediate)</option>
+                <option value="av-a">Anulom vilom (advanced)</option>
+                <option value="av-e">Anulom vilom (expert)</option>
+              </select>
+              <span class="custom-arrow"></span>
+            </div>
           </div>
 
+          <!-- Set type breath section borders -->
+          <div class="form-control fc-radio">
+            <label class="legend">Style section borders</label>
+            <div class="radio-input-box">
+              <input type="radio" name="section-border-style" id="radio-input-gradient" checked>
+              <label for="radio-input-gradient">Gradient</label>
+            </div>
+            <div class="radio-input-box">
+              <input type="radio" name="section-border-style" id="radio-input-strict">
+              <label for="radio-input-strict">Strict</label>
+            </div>         
+          </div>
+
+
           <!-- Custom inhalation time -->
-          <div class="form-control">
-            <input type="range" id="inhalation-range">
-            <input type="text" id="inhalation-text">
-            <label>Inhalation</label>
+          <div class="form-control fc-custom">
+            <label class="legend">Inhalation</label>
+            <input type="range" id="inhalation-range" min="0" max="40" value="0">
+            <input type="number" id="inhalation-text" max="40" autocomplete="off" placeholder="0">
           </div>
 
           <!-- Custom breath inhaled-retention time -->
-          <div class="form-control">
-            <input type="range" id="inhaled-retention-range">
-            <input type="text" id="inhaled-retention-text">
-            <label>Inhaled retention (optional)</label>
+          <div class="form-control fc-custom">
+            <label class="legend">Inhaled retention (optional)</label>
+            <input type="range" id="inhaled-retention-range" min="0" max="40" value="0">
+            <input type="number" id="inhaled-retention-text" max="40" autocomplete="off" placeholder="0">
           </div>
 
           <!-- Custom exhalation time -->
-          <div class="form-control">
-            <input type="range" id="exhalation-range">
-            <input type="text" id="exhalation-text">
-            <label>Exhalation retention</label>
-          </div>
-    
-          <!-- Breathe programs hardcoded -->
-          <div class="form-control">
-            <select id="programs-select">
-              <option value="sv-b">Sama vritti (beginner)</option>
-              <option value="sv-i">Sama vritti (intermediate)</option>
-              <option value="sv-a">Sama vritti (advanced)</option>
-              <option value="av-b">Anulom vilom (beginner)</option>
-              <option value="av-i">Anulom vilom (intermediate)</option>
-              <option value="av-a">Anulom vilom (advanced)</option>
-            </select>
-            <label>Breathe programs</label>
+          <div class="form-control fc-custom">
+            <label class="legend">Exhalation retention</label>
+            <input type="range" id="exhalation-range" min="0" max="40" value="0">
+            <input type="number" id="exhalation-text" max="40" autocomplete="off" placeholder="0">
           </div>
 
-          <div class="settings__btns">
+          <!-- Custom breath exhaled-retention time -->
+          <div class="form-control fc-custom">
+            <label class="legend">Exhaled retention (optional)</label>
+            <input type="range" id="exhaled-retention-range" min="0" max="40" value="0">
+            <input type="number" id="exhaled-retention-text" max="40" autocomplete="off" placeholder="0">
+          </div>
+          
+          <!-- Input submit button -->
+          <div class="custom-setting-btns">
             <button type="submit" id="save-program-btn">Save as program</button>
-            <button type="submit" id="save-session-btn">Save as session</button>
+            <button type="submit" id="save-session-btn">Start session</button>
           </div>
 
+          <!-- Program creation modal -->
           <div class="settings__modal">
             <label for="name-custom-program-text">Name custom program</label>
             <input type="text" id="name-custom-program-text">

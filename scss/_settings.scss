@@ -1,25 +1,274 @@
 @use './variables' as v;
 
 .settings {
-  width: 30rem;
+  width: 35rem;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0rem;
+  padding: 1rem 2rem;
   background-color: v.$clr-accent-dark;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(-30rem);
+  transform: translateX(-35rem);
   z-index: 99;
-  color: v.$clr-accent-bright;
+  color: v.$clr-bright;
   
   &.open {
     transform: translateX(0);
   }
 
   &__title {
-    margin-block: 1rem;
+    margin-bottom: 2rem;
     text-align: center;
     font-weight: v.$fw-thick;
+    opacity: 0.9;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    
+    // Form general input
+    button {
+      padding: 0.6rem 1rem;
+      background-color: transparent;
+      border: 0.1rem solid v.$clr-bright;
+      border-radius: 0.2rem;
+      color: v.$clr-bright;
+      font-size: 1.15rem;
+      font-weight: v.$fw-thick;
+      cursor: pointer;
+      opacity: 0.9;      
+      transition: 
+        background-color 0.2s ease-in-out,
+        border-color 0.2s ease-in-out,
+        color 0.2s ease-in-out,
+        opacity 0.2s ease-in-out;
+
+      &:hover {
+        background-color: v.$clr-btn-hover;
+        border-color: v.$clr-accent-bright;
+        color: v.$clr-accent-bright;
+        opacity: 1;
+      }
+    }
+
+    .form-control {
+      height: 3.8rem;
+      position: relative;
+      display: grid;
+      align-items: center;
+      padding-inline: 1em 0.6em;
+      border: 0.1rem solid v.$clr-bright;
+      border-radius: 0.2rem;
+      opacity: 0.9;
+      transition: 
+        background-color 0.2s ease-in-out,
+        opacity 0.2s ease-in-out;
+
+      
+      &:hover {
+        background-color: v.$clr-btn-hover;
+        opacity: 1;
+      }
+
+      .legend {
+        position: absolute;
+        top: -0.8rem;
+        left: 1.2rem;
+        padding-inline: 0.3rem;
+        background-color: v.$clr-accent-dark;
+        font-size: 1.1rem;
+      }
+    }
+
+    // Form program select
+    .fc-program {
+
+      .custom-select {
+        position: relative;
+        
+        select { 
+          appearance: none;
+          width: 100%;
+          padding-block: 0.2rem;
+          padding-right: 3rem;
+          background-color: transparent;
+          color: v.$clr-bright;
+          font-size: 1.1rem;
+          transition: background-color 0.2s ease-in-out;
+  
+          &:hover {
+            background-color: v.$clr-btn-hover;
+          }
+        }
+
+        .custom-arrow {
+          width: 2rem;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          right:  0;
+          display: block;
+          background-color: transparent;
+          pointer-events: none;
+
+          &::before,
+          &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+          }
+
+          &::before {
+            border-right: 0.55em solid transparent;
+            border-bottom: 0.55em solid v.$clr-bright;
+            border-left: 0.55em solid transparent;
+            top: 12%;
+          }
+          
+          &::after {
+            border-right: 0.55em solid transparent;
+            border-top: 0.55em solid v.$clr-bright;;
+            border-left: 0.55em solid transparent;
+            top: 58%;
+          }
+
+        }
+      }
+
+    }
+
+    // Form radio input
+    .fc-radio {
+      display: flex;
+      justify-content: space-around;
+      font-size: 1.1rem;
+      
+      .radio-input-box {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-left: 0.9rem;
+        color: v.$clr-bright;
+        
+        input[type=radio] {
+          appearance: none;
+          width: 1.1rem;
+          height: 1.1rem;
+          background-color: v.$clr-bright;
+          border: 0.1rem solid v.$clr-bright;
+          border-radius: 50%;
+          cursor: pointer;
+
+          &::before {
+            content: '';
+            display: grid;
+            place-content: center;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.2s ease-in-out;
+            box-shadow: inset 1em 1em v.$clr-accent-dark
+          }
+
+          &:checked::before {
+            transform: scale(1);
+            outline: 0.1rem solid v.$clr-accent-bright;
+          }
+
+          &:checked ~ label {
+            color: v.$clr-accent-bright;;
+          }
+        }
+        
+        label {
+          cursor: pointer;
+
+        }
+      }
+    }
+
+    // Form custom input
+    .fc-custom {
+      grid-template-columns: 1fr 2.8rem;
+      align-items: center;
+
+      ::placeholder {
+        color: v.$clr-accent-light;
+      }
+
+      // Custom styled range input
+      input[type=range] {
+        appearance: none;
+        width: 90%;
+        height: 0.2rem;
+        background-color: v.$clr-bright;
+        background-image: linear-gradient(v.$clr-accent-bright, v.$clr-accent-bright);
+        border-radius: 0.3rem;
+        background-size: 0% 100%;
+        background-repeat: no-repeat;
+      }
+      
+      input[type=range]::-webkit-slider-runnable-track {
+        appearance: none;
+        background-color: transparent;
+        box-shadow: none;
+        cursor: pointer;
+      }
+      
+      input[type=range]::-webkit-slider-thumb {
+        appearance: none;
+        width: 1.2rem;
+        height: 1.2rem;
+        background-color: v.$clr-accent-dark;
+        border: 0.1rem solid v.$clr-bright;
+        border-radius: 50%;
+        cursor: ew-resize;
+        box-shadow: 
+          0 0 0.1rem hsl(0, 0%, 0%),
+          0 0 0.1rem hsl(0, 0%, 0%),
+          0 0 0.1rem hsl(0, 0%, 0%),
+          0 0 0.1rem hsl(0, 0%, 0%);
+        transition: 
+          background-color 0.3s ease-in-out,
+          border-color 0.3s ease-in-out;
+
+        &:hover {
+          border: 0.1rem solid v.$clr-accent-bright;
+        }
+      }
+
+      input[type=number] {
+        padding: 0.3rem ;
+        background-color: v.$clr-bright;
+        border: none;
+        outline: none;
+        border-radius: 0.2rem;
+        font-size: 1.35rem;
+        color: v.$clr-accent-dark;
+        text-align: center;
+      }
+    }
+
+    // Form custom input buttons
+    .custom-setting-btns {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+
+      button {
+        width: 48%;
+      }
+    }
+  }
+
+  &__modal {
+    display: none;
   }
 
 }
