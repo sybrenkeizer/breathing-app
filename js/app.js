@@ -3,7 +3,6 @@
 // TODO - ENHANCE: Add grow animation to circle without messing up z-index hierarchy
 // TODO - ENHANCE: Add responsiveness
 // TODO - ENHANCE: Reduce size menu toggle button
-// TODO - ENHANCE: style select menu arrow
 // TODO - FIX: Fading out trouble with circle button
 // TODO - FIX: Cross browser compatibility 
 // TODO - FIX: Deal with lost text anomaly background
