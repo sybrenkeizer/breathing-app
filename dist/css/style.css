@@ -146,10 +146,9 @@ label {
   width: 24rem;
   height: 24rem;
   inset: -1rem;
-  background: conic-gradient(hsl(354deg, 8%, 25%) 0%, hsl(354deg, 8%, 25%) 35%, hsl(0deg, 0%, 67%) 41%, hsl(0deg, 0%, 67%) 55%, hsl(332deg, 24%, 12%) 61%, hsl(332deg, 24%, 12%) 96%, hsl(354deg, 8%, 25%) 100%);
+  background-image: conic-gradient(hsl(354deg, 8%, 25%) 0%, hsl(354deg, 8%, 25%) 34.5%, hsl(0deg, 0%, 67%) 40.5%, hsl(0deg, 0%, 67%) 59.5%, hsl(332deg, 24%, 12%) 65.5%, hsl(332deg, 24%, 12%) 98%, hsl(354deg, 8%, 25%) 100%);
   border-radius: 50%;
   z-index: 1;
-  transform: rotate(7.2deg);
 }
 .circle__pointer-container {
   width: 100%;

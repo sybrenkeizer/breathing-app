@@ -10,9 +10,15 @@
 const settingsToggleBtn = document.getElementById('settings-toggle-btn');
 const moveToggleBtn = document.getElementById('move-toggle-btn');
 const settingsContainer = document.getElementById('settings');
+const settingSelect = document.getElementById('programs-select');
 const settingRangeInputs = document.querySelectorAll('input[type=range]');
 const settingNumberInputs = document.querySelectorAll('input[type=number]');
-const settingSelect = document.getElementById('programs-select');
+const inhalationNumberInput = document.getElementById('inhalation-text');
+const exhalationNumberInput = document.getElementById('exhalation-text');
+const inhaledRetentionText = document.getElementById('inhaled-retention-text');
+
+const settingStartBtn = document.getElementById('save-session-btn');
+
 const pageBackground = document.getElementById('page-background');
 const circleToggleBtn = document.getElementById('circle-btn');
 const indicatorText = document.getElementById('indicator-text');
@@ -21,10 +27,12 @@ const pointerContainer = document.getElementById('pointer-container');
 const pointer = document.getElementById('pointer');
 const footerYearText = document.getElementById('footer-year');
 
-const COUNTDOWN_VALUE = 5;
-const INHALATION = 3;
-const HOLD = 2;
-const EXHALATION = 3;
+
+let setting_countdownValue = 5;
+let setting_inhalationValue = 3;
+let setting_inhaledRetentionValue = 2;
+let setting_exhalationValue = 3;
+
 let startNumber;
 let isBreathing = false;
 
@@ -70,7 +78,10 @@ const setYearFooter = () => footerYearText.textContent = new Date().getFullYear(
 
 
 
-// ===== Settings functions ===== 
+
+// ==================== 
+// ===== Settings ===== 
+// ==================== 
 const toggleSettings = () => {
   if (settingsContainer.classList.contains('open')) {
     settingsToggleBtn.classList.remove('open');
@@ -122,11 +133,28 @@ const colorFormSelectOption = () => {
   })
 }
 
+const initializeSettings = (e) => {
+  e.preventDefault();
+  if (!validateSettingsFormInput()) return 
+  setting_inhalationValue = +inhalationNumberInput.value;
+  setting_exhalationValue = +exhalationNumberInput.value;
+  setting_inhaledRetentionValue = inhaledRetentionText.value ? +inhaledRetentionText.value : 0;
+  setRotationTimePointer();  
+  setCircleSections();
+  closeSettingsPanel();
+}
 
-// ===== Breathe counting function =====
+const validateSettingsFormInput = () => {
+  return (inhalationNumberInput.value && exhalationNumberInput.value) 
+}
+
+
+// ==========================
+// ===== Breathe circle =====
+// ==========================
 const inhalation = () => {
   if (!isBreathing) return;
-  let timeInhalation = INHALATION;
+  let timeInhalation = setting_inhalationValue;
   indicatorText.firstElementChild.textContent = timeInhalation;
   indicatorText.lastElementChild.textContent = 'Inhale';
   pointer.className = 'pointer grow-animation';
@@ -145,7 +173,7 @@ const inhalation = () => {
 
 const hold = () => {
   if (!isBreathing) return;
-  let timeHold = HOLD;
+  let timeHold = setting_inhaledRetentionValue;
   indicatorText.firstElementChild.textContent = timeHold;
   indicatorText.lastElementChild.textContent = 'Hold';
   
@@ -164,7 +192,7 @@ const hold = () => {
 
 const exhalation = () => {
   if (!isBreathing) return;
-  let timeExhalation = EXHALATION;
+  let timeExhalation = setting_exhalationValue;
   indicatorText.firstElementChild.textContent = timeExhalation;
   indicatorText.lastElementChild.textContent = 'Exhale';
   pointer.className = 'pointer shrink-animation';
@@ -180,8 +208,64 @@ const exhalation = () => {
     };
 
   }, 1000);
-
 };
+
+// ===== Set animation timing ===== 
+const setRotationTimePointer = () => {
+  const rotateAnimation = document.querySelector('.rotate-animation');
+  const animationDuration = setting_inhalationValue + setting_inhaledRetentionValue + setting_exhalationValue;
+  rotateAnimation.style.animationDuration = `${animationDuration}s`;
+}
+
+// ===== Set UI according to breathe settings ===== 
+const setCircleSections = () => {
+  const circleGradient = document.querySelector('.circle__gradient');
+  const inhalationTime = setting_inhalationValue;
+  const retentionTime = setting_inhaledRetentionValue;
+  const exhalationTime = setting_exhalationValue;
+  const totalBreathTime = inhalationTime + retentionTime + exhalationTime;
+
+  const startInhale = 0;
+  const endInhale = inhalationTime / totalBreathTime * 100;
+  const startRetention = inhalationTime / totalBreathTime * 100;
+  const endRetention = (retentionTime / totalBreathTime * 100) + startRetention;
+  const startExhale = (retentionTime / totalBreathTime * 100) + startRetention;
+  const endExhale = 100;
+
+  console.log(startInhale, '-', endInhale - 3);
+  console.log(startRetention + 3, '-', endRetention - 3);
+  console.log(startExhale + 3, '-', endExhale - 3);
+
+  const colorInhale = 'hsl(354, 8%, 25%)';
+  const colorExhale= 'hsl(332, 24%, 12%)';
+  const colorHold = 'hsl(0, 0%, 67%)';
+
+  
+  circleGradient.style.backgroundImage = `conic-gradient(
+    ${colorInhale} ${startInhale}%,
+    ${colorInhale} ${endInhale}%,
+    ${colorHold} ${startRetention}%,
+    ${colorHold} ${endRetention}%,
+    ${colorExhale} ${startExhale}%,
+    ${colorExhale} ${endExhale}%,
+    ${colorInhale} ${endExhale}%)
+    `;
+
+  // GRADIENT SECTION BORDERS
+
+  // circleGradient.style.backgroundImage = `conic-gradient(
+  //     hsl(354, 8%, 25%) ${startInhale}%,
+  //     hsl(354, 8%, 25%) ${endInhale - 3}%,
+  //     hsl(0, 0%, 67%) ${startRetention + 3}%,
+  //     hsl(0, 0%, 67%) ${endRetention - 3}%,
+  //     hsl(332, 24%, 12%) ${startExhale + 3}%,
+  //     hsl(332, 24%, 12%) ${endExhale - 3}%,
+  //     hsl(354, 8%, 25%) ${endExhale}%)
+  //   `;
+
+  // transform: rotate(calc(360deg / 100 * 2));
+
+}
 
 
 
@@ -203,12 +287,12 @@ const stopBreathing = () => {
 };
 
 const startCountdown = () => {
-  startNumber = COUNTDOWN_VALUE;
+  startNumber = setting_countdownValue;
   showBreatherCountdown();
   addFadeBreatherCircleBtn();
   changeFadeCircleBtnLong();
 
-  countdownNumber.textContent = COUNTDOWN_VALUE;
+  countdownNumber.textContent = setting_countdownValue;
 
   const interval = setInterval(() => {
     countdownNumber.textContent = --startNumber;
@@ -230,15 +314,23 @@ const startStopBreather = () => {
 };
 
 
+
+
+
 const initialize = () => {
   setYearFooter();
 }
 
+
+// ===========================
 // ===== Event Listeners =====
+// ===========================
 settingsToggleBtn.addEventListener('click', toggleSettings);
 settingRangeInputs.forEach(range => range.addEventListener('input', setFormInputValues));
 settingNumberInputs.forEach(number => number.addEventListener('input', setFormInputValues));
 settingSelect.addEventListener('change', colorFormSelectOption);
+settingStartBtn.addEventListener('click', initializeSettings);
+
 circleToggleBtn.addEventListener('click', startStopBreather);
 circleToggleBtn.addEventListener('mouseover', changeFadeCircleBtnShort);
 window.addEventListener('DOMContentLoaded', initialize);

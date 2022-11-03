@@ -16,22 +16,21 @@
   };
 
   &__gradient {
-    position: absolute;
+    position: absolute; 
     width: 24rem;
     height: 24rem;
     inset: -1rem;
-    background: conic-gradient(
+    background-image: conic-gradient(
      v.$clr-accent-light 0%,
-     v.$clr-accent-light 35%,
-     v.$clr-light 41%,
-     v.$clr-light 55%,
-     v.$clr-accent-dark 61%,
-     v.$clr-accent-dark 96%,
+     v.$clr-accent-light 34.5%,
+     v.$clr-light 40.5%,
+     v.$clr-light 59.5%,
+     v.$clr-accent-dark 65.5%,
+     v.$clr-accent-dark 98%,
      v.$clr-accent-light 100%
     );
     border-radius: 50%;
     z-index: 1;
-    transform: rotate(calc(360deg / 100 * 2));
   };
   
   &__pointer-container {
