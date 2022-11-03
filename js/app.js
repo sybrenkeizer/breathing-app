@@ -16,8 +16,8 @@ const settingNumberInputs = document.querySelectorAll('input[type=number]');
 const inhalationNumberInput = document.getElementById('inhalation-text');
 const exhalationNumberInput = document.getElementById('exhalation-text');
 const inhaledRetentionText = document.getElementById('inhaled-retention-text');
-
-const settingStartBtn = document.getElementById('save-session-btn');
+const settingStartSessionsBtn = document.getElementById('save-session-btn');
+const settingsSaveProgramBtn = document.getElementById('save-program-btn');
 
 const pageBackground = document.getElementById('page-background');
 const circleToggleBtn = document.getElementById('circle-btn');
@@ -141,7 +141,8 @@ const setStyleCircleSectionBorders = () => {
 
 const initializeSettings = (e) => {
   e.preventDefault();
-  if (!validateSettingsFormInput()) return 
+  if (!validateSettingsFormInput()) return;
+  stopBreathing();
   setting_inhalationValue = +inhalationNumberInput.value;
   setting_exhalationValue = +exhalationNumberInput.value;
   setting_inhaledRetentionValue = inhaledRetentionText.value ? +inhaledRetentionText.value : 0;
@@ -153,6 +154,11 @@ const initializeSettings = (e) => {
 
 const validateSettingsFormInput = () => {
   return (inhalationNumberInput.value && exhalationNumberInput.value) 
+}
+
+
+const saveProgramSettings = (e) => {
+  e.preventDefault();
 }
 
 
@@ -228,8 +234,8 @@ const setRotationTimePointer = () => {
 const setCircleSections = () => {
   const circleGradient = document.querySelector('.circle__gradient');
   const inhalationTime = setting_inhalationValue;
-  const retentionTime = setting_inhaledRetentionValue;
   const exhalationTime = setting_exhalationValue;
+  const retentionTime = setting_inhaledRetentionValue;
   const totalBreathTime = inhalationTime + retentionTime + exhalationTime;
 
   let startInhale = 0;
@@ -242,14 +248,25 @@ const setCircleSections = () => {
 
   const colorInhale = 'hsl(354, 8%, 25%)';
   const colorExhale= 'hsl(332, 24%, 12%)';
-  const colorHold = 'hsl(0, 0%, 67%)';
+  const colorRetention = 'hsl(0, 0%, 67%)';
+  const colorRetentionStart = !retentionTime ? colorInhale : colorRetention;
+  const colorRetentionEnd = !retentionTime ? colorExhale : colorRetention;
 
   if (isGradient) {
-    endInhale = endInhale - 4.5;
-    startRetention = startRetention + 1.5;
-    endRetention = endRetention - 4.5;
-    startExhale = startExhale + 1.5;
-    endExhale = endExhale - 3;
+
+    if (!retentionTime) {
+      endInhale -= 4.5;
+      startRetention = endInhale;
+      endRetention = startExhale + 4.5;
+      startExhale = endRetention;
+      endExhale -= 3;
+    }
+
+    endInhale -= 4.5;
+    startRetention += 1.5;
+    endRetention -= 4.5;
+    startExhale -= 1.5;
+    endExhale -= 3;
 
     circleGradient.style.transform = 'rotate(calc(360deg / 100 * 1.5))';
   } else {
@@ -259,14 +276,13 @@ const setCircleSections = () => {
   circleGradient.style.backgroundImage = `conic-gradient(
       ${colorInhale} ${startInhale}%,
       ${colorInhale} ${endInhale}%,
-      ${colorHold} ${startRetention}%,
-      ${colorHold} ${endRetention}%,
+      ${colorRetentionStart} ${startRetention}%,
+      ${colorRetentionEnd} ${endRetention}%,
       ${colorExhale} ${startExhale}%,
       ${colorExhale} ${endExhale}%,
       ${colorInhale} ${overlap}%)
     `;
- 
-}
+};
 
 
 
@@ -316,8 +332,6 @@ const startStopBreather = () => {
 
 
 
-
-
 const initialize = () => {
   setYearFooter();
 }
@@ -330,8 +344,8 @@ settingsToggleBtn.addEventListener('click', toggleSettings);
 settingRangeInputs.forEach(range => range.addEventListener('input', setFormInputValues));
 settingNumberInputs.forEach(number => number.addEventListener('input', setFormInputValues));
 settingSelect.addEventListener('change', colorFormSelectOption);
-settingStartBtn.addEventListener('click', initializeSettings);
-
+settingStartSessionsBtn.addEventListener('click', initializeSettings);
+settingsSaveProgramBtn.addEventListener('click', saveProgramSettings);
 circleToggleBtn.addEventListener('click', startStopBreather);
 circleToggleBtn.addEventListener('mouseover', changeFadeCircleBtnShort);
 window.addEventListener('DOMContentLoaded', initialize);
