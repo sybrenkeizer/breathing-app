@@ -35,6 +35,7 @@ let setting_exhalationValue = 3;
 
 let startNumber;
 let isBreathing = false;
+let isGradient;
 
 
 
@@ -133,12 +134,18 @@ const colorFormSelectOption = () => {
   })
 }
 
+const setStyleCircleSectionBorders = () => {
+  isGradient = document.getElementById('radio-input-gradient').checked;
+}
+
+
 const initializeSettings = (e) => {
   e.preventDefault();
   if (!validateSettingsFormInput()) return 
   setting_inhalationValue = +inhalationNumberInput.value;
   setting_exhalationValue = +exhalationNumberInput.value;
   setting_inhaledRetentionValue = inhaledRetentionText.value ? +inhaledRetentionText.value : 0;
+  setStyleCircleSectionBorders();
   setRotationTimePointer();  
   setCircleSections();
   closeSettingsPanel();
@@ -225,46 +232,40 @@ const setCircleSections = () => {
   const exhalationTime = setting_exhalationValue;
   const totalBreathTime = inhalationTime + retentionTime + exhalationTime;
 
-  const startInhale = 0;
-  const endInhale = inhalationTime / totalBreathTime * 100;
-  const startRetention = inhalationTime / totalBreathTime * 100;
-  const endRetention = (retentionTime / totalBreathTime * 100) + startRetention;
-  const startExhale = (retentionTime / totalBreathTime * 100) + startRetention;
-  const endExhale = 100;
-
-  console.log(startInhale, '-', endInhale - 3);
-  console.log(startRetention + 3, '-', endRetention - 3);
-  console.log(startExhale + 3, '-', endExhale - 3);
+  let startInhale = 0;
+  let endInhale = inhalationTime / totalBreathTime * 100;
+  let startRetention = inhalationTime / totalBreathTime * 100;
+  let endRetention = (retentionTime / totalBreathTime * 100) + startRetention;
+  let startExhale = (retentionTime / totalBreathTime * 100) + startRetention;
+  let endExhale = 100;
+  let overlap = 100;
 
   const colorInhale = 'hsl(354, 8%, 25%)';
   const colorExhale= 'hsl(332, 24%, 12%)';
   const colorHold = 'hsl(0, 0%, 67%)';
 
-  
+  if (isGradient) {
+    endInhale = endInhale - 4.5;
+    startRetention = startRetention + 1.5;
+    endRetention = endRetention - 4.5;
+    startExhale = startExhale + 1.5;
+    endExhale = endExhale - 3;
+
+    circleGradient.style.transform = 'rotate(calc(360deg / 100 * 1.5))';
+  } else {
+    circleGradient.style.transform = 'rotate(0)';
+  }
+
   circleGradient.style.backgroundImage = `conic-gradient(
-    ${colorInhale} ${startInhale}%,
-    ${colorInhale} ${endInhale}%,
-    ${colorHold} ${startRetention}%,
-    ${colorHold} ${endRetention}%,
-    ${colorExhale} ${startExhale}%,
-    ${colorExhale} ${endExhale}%,
-    ${colorInhale} ${endExhale}%)
+      ${colorInhale} ${startInhale}%,
+      ${colorInhale} ${endInhale}%,
+      ${colorHold} ${startRetention}%,
+      ${colorHold} ${endRetention}%,
+      ${colorExhale} ${startExhale}%,
+      ${colorExhale} ${endExhale}%,
+      ${colorInhale} ${overlap}%)
     `;
-
-  // GRADIENT SECTION BORDERS
-
-  // circleGradient.style.backgroundImage = `conic-gradient(
-  //     hsl(354, 8%, 25%) ${startInhale}%,
-  //     hsl(354, 8%, 25%) ${endInhale - 3}%,
-  //     hsl(0, 0%, 67%) ${startRetention + 3}%,
-  //     hsl(0, 0%, 67%) ${endRetention - 3}%,
-  //     hsl(332, 24%, 12%) ${startExhale + 3}%,
-  //     hsl(332, 24%, 12%) ${endExhale - 3}%,
-  //     hsl(354, 8%, 25%) ${endExhale}%)
-  //   `;
-
-  // transform: rotate(calc(360deg / 100 * 2));
-
+ 
 }
 
 

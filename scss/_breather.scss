@@ -22,15 +22,16 @@
     inset: -1rem;
     background-image: conic-gradient(
      v.$clr-accent-light 0%,
-     v.$clr-accent-light 34.5%,
-     v.$clr-light 40.5%,
-     v.$clr-light 59.5%,
-     v.$clr-accent-dark 65.5%,
-     v.$clr-accent-dark 98%,
+     v.$clr-accent-light 33%,
+     v.$clr-light 39%,
+     v.$clr-light 58%,
+     v.$clr-accent-dark 64%,
+     v.$clr-accent-dark 97%,
      v.$clr-accent-light 100%
     );
     border-radius: 50%;
     z-index: 1;
+    transform: rotate(calc(360deg / 100 * 1.5));
   };
   
   &__pointer-container {
