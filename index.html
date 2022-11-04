@@ -51,8 +51,8 @@
       </div>
     </main>
 
-    <!-- Background for modal -->
-    <div id="page-background" class="page-background"></div>
+    <!-- Background for settings menu -->
+    <div id="background-settings" class="background-settings"></div>
 
     <!-- Settings -->
     <aside id="settings" class="settings">
@@ -66,14 +66,6 @@
               <select id="programs-select">
                 <option disabled selected>Select program</option>
                 <option value="custom">Customize</option>
-                <option value="sv-b">Sama vritti (beginner)</option>
-                <option value="sv-i">Sama vritti (intermediate)</option>
-                <option value="sv-a">Sama vritti (advanced)</option>
-                <option value="sv-e">Sama vritti (expert)</option>
-                <option value="av-b">Anulom vilom (beginner)</option>
-                <option value="av-i">Anulom vilom (intermediate)</option>
-                <option value="av-a">Anulom vilom (advanced)</option>
-                <option value="av-e">Anulom vilom (expert)</option>
               </select>
               <span class="custom-arrow"></span>
             </div>
@@ -95,46 +87,54 @@
           <!-- Custom inhalation time -->
           <div class="form-control fc-custom">
             <label class="legend">Inhalation</label>
-            <input type="range" id="inhalation-range" data-breath="inhalation" min="0" max="40" value="0">
-            <input type="number" id="inhalation-text" data-breath="inhalation" max="40" autocomplete="off" placeholder="0">
+            <input type="range" id="inhalation-range" data-breath="inhalation" min="0" value="0">
+            <input type="number" id="inhalation-text" data-breath="inhalation" autocomplete="off" placeholder="0">
           </div>
 
           <!-- Custom breath inhaled-retention time -->
           <div class="form-control fc-custom">
             <label class="legend">Inhaled retention (optional)</label>
-            <input type="range" id="inhaled-retention-range" data-breath="inhaled-retention" min="0" max="40" value="0">
-            <input type="number" id="inhaled-retention-text" data-breath="inhaled-retention" max="40" autocomplete="off" placeholder="0">
+            <input type="range" id="inhaled-retention-range" data-breath="inhaled-retention" min="0" value="0">
+            <input type="number" id="inhaled-retention-text" data-breath="inhaled-retention" autocomplete="off" placeholder="0">
           </div>
 
           <!-- Custom exhalation time -->
           <div class="form-control fc-custom">
             <label class="legend">Exhalation</label>
-            <input type="range" id="exhalation-range" data-breath="exhalation" min="0" max="40" value="0">
-            <input type="number" id="exhalation-text" data-breath="exhalation" max="40" autocomplete="off" placeholder="0">
+            <input type="range" id="exhalation-range" data-breath="exhalation" min="0" value="0">
+            <input type="number" id="exhalation-text" data-breath="exhalation" autocomplete="off" placeholder="0">
           </div>
 
           <!-- Custom breath exhaled-retention time -->
           <div class="form-control fc-custom">
             <label class="legend">Exhaled retention (optional)</label>
-            <input type="range" id="exhaled-retention-range" data-breath="exhaled-retention" min="0" max="40" value="0">
-            <input type="number" id="exhaled-retention-text" data-breath="exhaled-retention" max="40" autocomplete="off" placeholder="0">
+            <input type="range" id="exhaled-retention-range" data-breath="exhaled-retention" min="0" value="0">
+            <input type="number" id="exhaled-retention-text" data-breath="exhaled-retention" autocomplete="off" placeholder="0">
           </div>
           
           <!-- Input submit button -->
           <div class="custom-setting-btns">
-            <button type="submit" id="save-program-btn">Save as program</button>
+            <button type="submit" id="store-program-btn">Store as program</button>
             <button type="submit" id="save-session-btn">Start session</button>
           </div>
 
           <!-- Program creation modal -->
-          <div class="settings__modal">
+          <div id="background-modal" class="background-modal"></div>
+          
+          <div id="settings-modal" class="settings__modal">
+            <input type="text" id="name-custom-program-text" placeholder="&nbsp;" autocomplete="off">
             <label for="name-custom-program-text">Name custom program</label>
-            <input type="text" id="name-custom-program-text">
+            <button type="submit" id="modal-save-btn">Save</button>
+            <a href="#" id="cancel-settings-modal" class="cancel-settings-modal">
+              <icon class="fa-solid fa-xmark"></icon>
+            </a>
           </div>
-
+          
+          
+          
         </form>
-    </aside>
-
+      </aside>
+      
     <footer>
       <small>&copy; TheBreather <span id="footer-year"></span>. No rights reserved</small>
     </footer>

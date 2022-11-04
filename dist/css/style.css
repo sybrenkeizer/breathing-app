@@ -7,6 +7,11 @@ h2 {
   font-weight: 400;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 *,
 *::before,
 *::after {
@@ -253,7 +258,7 @@ label {
   background-color: hsl(332deg, 24%, 12%);
   transition: transform 0.5s ease-in-out;
   transform: translateX(-35rem);
-  z-index: 99;
+  z-index: 20;
   color: hsl(0deg, 38%, 54%);
 }
 .settings.open {
@@ -271,7 +276,7 @@ label {
   gap: 2rem;
 }
 .settings form button {
-  padding: 0.6rem 1rem;
+  padding: 0.6em 1em;
   background-color: transparent;
   border: 0.1rem solid hsl(0deg, 38%, 54%);
   border-radius: 0.2rem;
@@ -456,7 +461,7 @@ label {
   border: none;
   outline: none;
   border-radius: 0.2rem;
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   color: hsl(332deg, 24%, 12%);
   text-align: center;
 }
@@ -472,17 +477,109 @@ label {
   display: none;
 }
 
-.page-background {
+.background-settings {
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
   transition: opacity 0.6s ease-in-out;
-  z-index: 9;
+  z-index: 20;
 }
 
-.page-background.show {
+.background-settings.show {
   opacity: 1;
+}
+
+.background-modal {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  z-index: -1;
+}
+
+.background-modal.show {
+  opacity: 1;
+  z-index: 30;
+}
+
+.settings__modal {
+  width: 86%;
+  display: none;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: hsl(332deg, 24%, 12%);
+  padding: 2.5rem;
+  border-radius: 0.2rem;
+  z-index: 31;
+}
+.settings__modal label {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  background-color: hsl(332deg, 24%, 12%);
+  padding-inline: 0.3rem;
+  opacity: 0.7;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+.settings__modal input {
+  width: 65%;
+  background-color: transparent;
+  padding: 0.6em;
+  border: 0.1rem solid hsl(0deg, 38%, 54%);
+  border-radius: 0.2rem;
+  color: hsl(0deg, 38%, 54%);
+  font-size: 1.15rem;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.settings__modal input:hover, .settings__modal input:focus {
+  background-color: hsl(332deg, 24%, 11%);
+  border-color: hsl(359deg, 55%, 53%);
+  color: hsl(359deg, 55%, 53%);
+}
+.settings__modal input:focus ~ label {
+  transform: translate(-1rem, -2.2rem) scale(0.9);
+  color: hsl(359deg, 55%, 53%);
+  opacity: 1;
+}
+.settings__modal input:not(:-moz-placeholder-shown) ~ label {
+  transform: translate(-1rem, -2.2rem) scale(0.9);
+  color: hsl(359deg, 55%, 53%);
+  opacity: 1;
+}
+.settings__modal input:not(:-ms-input-placeholder) ~ label {
+  transform: translate(-1rem, -2.2rem) scale(0.9);
+  color: hsl(359deg, 55%, 53%);
+  opacity: 1;
+}
+.settings__modal input:not(:placeholder-shown) ~ label {
+  transform: translate(-1rem, -2.2rem) scale(0.9);
+  color: hsl(359deg, 55%, 53%);
+  opacity: 1;
+}
+.settings__modal button {
+  width: 7rem;
+}
+.settings__modal .cancel-settings-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.3em 0.5em;
+  font-size: 1.3rem;
+  transition: color 0.2s ease-in-out;
+}
+.settings__modal .cancel-settings-modal:hover {
+  color: hsl(359deg, 55%, 53%);
+}
+
+.settings__modal.show {
+  display: flex;
 }
 
 .move-toggle-btn {
@@ -491,8 +588,8 @@ label {
   position: absolute;
   left: 4rem;
   cursor: pointer;
-  z-index: 100;
-  transition: transform 0.6s ease-in-out;
+  z-index: 21;
+  transition: transform 0.6s ease-in-out, opacity 0.2s ease-in-out;
 }
 .move-toggle-btn.move {
   transform: translateX(27rem);
