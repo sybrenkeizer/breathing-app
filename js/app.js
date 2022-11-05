@@ -6,12 +6,15 @@
 // TODO - ENHANCE: Look into better stop/start icons
 // TODO - ENHANCE: Improve gradient system of indicator circle 
 // TODO - ENHANCE: Add more fluent exit from settings modal
+// TODO - ENHANCE: Add padding to range element for better access
+// TODO - ENHANCE: Add keypress enter for create custom program
+// TODO - ENHANCE: Add keypress esc to exit current modal / window
 // TODO - FIX: Fading out trouble with circle button
 // TODO - FIX: Cross browser compatibility 
 // TODO - FIX: Deal with lost text anomaly background
 // TODO - FIX: Timer moves out of sync (after some time)
 // TODO - FIX: Do not allow the same name as custom program
-// TODO - FIX: DO not allow double timing sequences being stored as program
+// TODO - FIX: Do not allow double timing sequences being stored as program
 
 const settingsToggleBtn = document.getElementById('settings-toggle-btn');
 const moveToggleBtn = document.getElementById('move-toggle-btn');
@@ -120,10 +123,10 @@ const changeFadeCircleBtnLong = () => {
 };
 const limitNumberLength = (number, maxLength) => {
   return number.length > maxLength ? number.slice(0, maxLength) : number;
-}
+};
 const limitNumberValue = (number) => {
   return number > MAX_TIME_VALUE ? number - (number - MAX_TIME_VALUE) : number;
-}
+};
 const closeSettingsPanel = () => {
   if (isSettingsOpened && !isSettingsModalOpened) {
     toggleSettings();
@@ -205,6 +208,13 @@ const initializeSettings = (e) => {
   e.preventDefault();
   if (!validateSettingsFormInput()) return;
   stopBreathing();
+  console.log('inhale', inhalationNumberInput.value);
+  console.log('exhale', exhalationNumberInput.value);
+  console.log('inhaled retention', inhaledRetentionText.value);
+  console.log('exhaled retention', exhaledRetentionText.value);
+
+
+
   setting_inhalationValue = +inhalationNumberInput.value;
   setting_exhalationValue = +exhalationNumberInput.value;
   setting_inhaledRetentionValue = inhaledRetentionText.value ? +inhaledRetentionText.value : 0;
@@ -297,8 +307,7 @@ const openProgramNameModal = (e) => {
   cancelSettingsModal.addEventListener('click', cancelProgramNameModal);
 };
 
-const createCustomProgram = (e) =>{
-  e.preventDefault();
+const createCustomProgram = (e) => {
   saveCustomProgramToLS(e);
   getCustomProgramFromLS();
   clearProgramsFromUI();
