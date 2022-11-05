@@ -638,7 +638,7 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url("/img/galaxy.jpg");
+  background-image: url("img/galaxy.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
